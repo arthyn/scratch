@@ -21,6 +21,7 @@ to test current tailwind pipeline.
 - `public/colors.js`
 - `stubs/defaultConfig.stub.js`
 - `src/corePlugins.js`
+- `src/lib/setupContextUtils.js`
 - `src/lib/generateRules.js`
 - `src/lib/expandTailwindAtRules.js`
   - only relevant portions are `buildStylesheet` and caching stuff
