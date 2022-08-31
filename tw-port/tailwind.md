@@ -14,8 +14,8 @@ Tailwind have been ported.
 - ignore @ directives, especially layers
 - probably should ignore the general flow of Tailwind's rule building, because ours can be simpler
 
-## current progress
-Current work is situated in `/desk/lib`. The `+ui` generator can be used
+## current progress - ON PAUSE
+Current work is situated in this folder. The `+ui` generator can be used
 to test current tailwind pipeline.
 
 ## important files
