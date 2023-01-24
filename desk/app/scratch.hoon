@@ -2,16 +2,12 @@
 /+  rudder, tonic, default-agent, verb, dbug
 ::
 /~    pages
-    (page:rudder example action)
+    (page:rudder pile action)
   /app/scratch
 ::
 ^-  agent:gall
 =>
   |%
-  +$  state-1
-    $:  %1
-        =example
-    ==
   ::
   +$  card  card:agent:gall
   --
@@ -44,25 +40,9 @@
   ++  on-poke
     |=  [=mark =vase]
     ^-  (quip card _this)
-    ?>  =(src our):bowl
-    ?+  mark  (on-poke:def mark vase)
-      ::  %handle-http-request: incoming from eyre
-      ::
-        %handle-http-request
-      =;  out=(quip card _example)
-        [-.out this(example +.out)]
-      %.  [bowl !<(order:rudder vase) example]
-      %:  (steer:rudder _example action)
-          pages
-          ~&  ~(key by pages)
-          (point:rudder /[dap.bowl] & ~(key by pages))
-          (fours:rudder example)
-        |=  act=action
-        ^-  $@(brief:rudder [brief:rudder (list card) _example])
-        ['Processed succesfully.' ~ example]
-      ==
-    ==
-
+    =^  cards  state
+      abet:(poke:cor mark vase)
+    [cards this]
   ++  on-watch
     |=  =path
     ^-  (quip card _this)
@@ -83,7 +63,7 @@
     ==
   ::
   ++  on-leave  on-leave:def
-  ++  on-peek   on-peek:def
+  ++  on-peek   peek:cor
   ++  on-fail   on-fail:def
   --
 |_  [=bowl:gall cards=(list card)]
@@ -99,6 +79,37 @@
   =/  old  !<(state-1 vase)
   =.  state  old
   cor
+::
+++  poke
+  |=  [=mark =vase]
+  ^+  cor
+  ?>  =(src our):bowl
+  ?+    mark  ~|(bad-poke/mark !!)
+      %save
+    =+  !<(=save vase)
+    sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)  
+    ::
+    ::  %handle-http-request: incoming from eyre
+    ::
+      %handle-http-request
+    =;  out=(quip card _pile)
+      =.  pile  +.out
+      cor(cards (welp (flop -.out) cards))
+    %.  [bowl !<(order:rudder vase) pile]
+    %:  (steer:rudder _pile action)
+        pages
+        ~&  ~(key by pages)
+        (point:rudder /[dap.bowl] & ~(key by pages))
+        (fours:rudder pile)
+      |=  act=action
+      ^-  $@(brief:rudder [brief:rudder (list card) _pile])
+      =^  caz  pile
+        ~&  act
+        [cards pile]:(poke %save !>([key.act [text.act]]))
+      ['Processed succesfully.' caz pile]
+    ==
+  ==
+::
 ++  watch
   |=  =(pole knot)
   ^+  cor
@@ -106,4 +117,30 @@
   ::
     [%http-response *]  cor
   ==
+::
+++  peek
+  |=  =path
+  ^-  (unit (unit cage))
+  ?+  path  [~ ~]
+  ::
+      [%x %state ~]
+    ``noun+!>(state)
+  ==
+::
+++  sc-core
+  |_  [=file =key gone=_|]
+  ++  sc-core  .
+  ++  sc-abet
+    =.  pile
+      ?:  gone  (~(del by pile) key)
+    (~(put by pile) key file)
+    cor
+  ++  sc-abed
+    |=  k=^key
+    sc-core(key k, file (~(gut by pile) k *^file))
+  ++  sc-save
+    |=  f=^file
+    =.  file  f
+    sc-core
+  --
 --
