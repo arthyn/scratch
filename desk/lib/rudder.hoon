@@ -89,14 +89,22 @@
 +$  route  $-(trail (unit place))
 +$  brief  ?(~ @t)
 ::
+++  response
+  |$  cmd
+    $%  [%.y =cmd msg=brief]
+        [%.n msg=brief]
+    ==
+  ::
+::
 ++  page
   |*  [dat=mold cmd=mold]
   $_  ^|
   |_  [bowl:gall order dat]
-  ++  build  |~([(list [k=@t v=@t]) (unit [? @t])] *reply)
+  ++  build  |~([trail (list [k=@t v=@t]) (unit [? @t])] *reply)
   ++  argue  |~([header-list:http (unit octs)] *$@(brief cmd))
-  ++  final  |~([success=? msg=brief] *reply)
+  ++  final  |~([trail rsp=(response cmd)] *reply)
   --
+::
 ::
 +$  card  card:agent:gall
 ::  pilot: core server logic
@@ -149,30 +157,30 @@
     ^-  (quip card _dat)
     =.  page  ~(. page bowl order dat)
     =*  id    id.order
+    =+  (purse url.request.order)
     ?+  method.request.order
       [(spout id (issue 405 ~)) dat]
     ::
         %'GET'
       :_  dat
-      =+  (purse url.request.order)
       =^  msg  args
         ::NOTE  as set by %next replies
         ?~  msg=(get-header:http 'rmsg' args)  [~ args]
         [`[& u.msg] (delete-header:http 'rmsg' args)]
       %+  spout  id
-      (paint (build:page args msg))
+      (paint (build:page [ext site] args msg))
     ::
         %'POST'
       ?@  act=(argue:page [header-list body]:request.order)
         :_  dat
         =?  act  ?=(~ act)  'failed to parse request'
-        (spout id (paint (final:page | act)))
+        (spout id (paint (final:page [ext site] %.n act)))
       ?@  res=(solve act)
         :_  dat
         =?  act  ?=(~ act)  'failed to process request'
-        (spout id (paint (final:page | res)))
+        (spout id (paint (final:page [ext site] %.n res)))
       :_  +>.res
-      (weld (spout id (paint (final:page & -.res))) +<.res)
+      (weld (spout id (paint (final:page [ext site] %.y act -.res))) +<.res)
     ==
   --
 ::  easy: hands-off steering behavior

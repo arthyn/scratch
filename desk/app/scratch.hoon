@@ -89,6 +89,10 @@
     =+  !<(=save vase)
     sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)  
     ::
+      %delete
+    =+  !<(=key vase)
+    sc-abet:sc-delete:(sc-abed:sc-core key)
+    ::
     ::  %handle-http-request: incoming from eyre
     ::
       %handle-http-request
@@ -98,16 +102,43 @@
     %.  [bowl !<(order:rudder vase) pile]
     %:  (steer:rudder _pile action)
         pages
-        ~&  ~(key by pages)
-        (point:rudder /[dap.bowl] & ~(key by pages))
+        :: ~&  ~(key by pages)
+        (point /[dap.bowl] & ~(key by pages))
         (fours:rudder pile)
       |=  act=action
       ^-  $@(brief:rudder [brief:rudder (list card) _pile])
       =^  caz  pile
-        ~&  act
-        [cards pile]:(poke %save !>([key.act [text.act]]))
-      ['Processed succesfully.' caz pile]
+        :: ~&  act
+        ?-  action.act
+            %save  
+          [[%saved cards] pile]:(poke %save !>([key.act text.act]))
+            %delete
+          [[%deleted cards] pile]:(poke %delete !>(key.act))
+        ==
+      [-.caz +.caz pile]
     ==
+  ==
+::
+++  point
+  =,  rudder
+  |=  [base=(lest @t) auth=? have=(set term)]
+  ^-  route
+  |=  trail
+  ^-  (unit place)
+  ?~  site=(decap:rudder base site)  ~
+  ~&  ['routing' u.site]
+  ?-  u.site
+    ~           `[%page auth %index]
+    [~ ~]       `[%away (snip ^site)]
+    [%index ~]  `[%away (snip ^site)]
+  ::
+      [@ ~]       
+    ?:  (~(has in have) i.u.site)
+      `[%page auth i.u.site]
+    `[%page auth %index]
+  ::
+    [@ ~ ~]     `[%away (snip ^site)]
+    *           ~
   ==
 ::
 ++  watch
@@ -141,6 +172,9 @@
   ++  sc-save
     |=  f=^file
     =.  file  f
+    sc-core
+  ++  sc-delete
+    =.  gone  &
     sc-core
   --
 --

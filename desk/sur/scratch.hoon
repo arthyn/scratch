@@ -6,8 +6,9 @@
   ==
 +$  pile  (map key file)
 +$  save  (pair key file)
++$  file-action  ?(%save %delete)
 +$  action
-  $%  [%save =key =text]
+  $%  [%file =key =text action=file-action]
   ==
 +$  state-1
   $:  %1
