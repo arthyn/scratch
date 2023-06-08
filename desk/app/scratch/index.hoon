@@ -47,11 +47,14 @@
       (crip (scag 5 (flop (trip (scot %uv eny.bowl)))))
   =/  file=(unit file)  (~(get by pile) key)
   =/  base  (spud /[dap.bowl])
+  =/  text  ?~(file "" (trip text.u.file))
+  =/  norm  (scan text (star ;~(pose (cold '\\`' (just '`')) next)))
   ^-  reply:rudder
   |^  [%page page]
   ++  page
     %^  template  q.byk.bowl  "scratch"
-    :~  ;main(class "md:flex h-full")
+    :~  ;script: {data}
+        ;main(class "md:flex h-full")
           ;aside(class "hidden md:flex p-4 pr-2 flex-none flex-col h-full space-y-2 min-w-[120px] max-w-[30%]")
             ;+  list
             ;+  new-note
@@ -61,15 +64,24 @@
             ;+  list
           ==
           ;section.flex-1.h-full.p-4.pl-2
-            ;form.flex.flex-col.h-full.space-y-6(method "post")
+            ;form.flex.flex-col.h-full.space-y-6(method "post", x-data "\{ og: window.scratch.text, text: window.scratch.text }")
               ;+  %:  mx
                 %sl-textarea
                 'flex-1 ${tws({ base: "h-full", textarea: "h-full font-mono" })}'
-                ~[[%name "text"] [%value ?~(file "" (trip text.u.file))]]
+                ~[[%name "text"] [%x-model "text"]]
                 ~
               ==
               ;div(class "flex flex-col md:flex-row justify-between gap-4")
-                ;sl-input.flex-1(name "key", size "small", value (trip key), readonly ?:(empty "false" "true"))
+                ;+  %:  mx
+                  %sl-input
+                  'flex-1'
+                  %+  welp  ?:(empty ~ ~[[%readonly ""]])
+                  :~  [%name "key"]
+                      [%size "small"]
+                      [%value (trip key)]
+                      [%required ""]
+                      [%pattern "[\\w.~\\-]*"]
+                  ==
                   ;+  ?.  saved
                         ?~  file
                           ;span(slot "help-text"): enter an identifier, will also serve as url
@@ -83,10 +95,24 @@
                   ;+  %:  mx
                     %sl-button
                     ''
+                    :~  [%variant "neutral"]
+                        [%outline ""] 
+                        [%size "small"] 
+                        [%aria-label "Copy URL"]
+                        [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view'))"]
+                    ==
+                    ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg"); 
+                  ==
+                  ;+  %:  mx
+                    %sl-button
+                    ''
                     ~[[%'@click' "$refs.delete.show()"] [%variant "danger"] [%outline ""] [%size "small"] [%aria-label "Delete"]]
                     ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg"); 
                   ==
-                  ;sl-button(variant "primary", outline "", size "small", type "submit", name "action", value "save")
+                  ;+  %:  mx
+                    %sl-button
+                    ''
+                    ~[[%':disabled' "og === text"] [%variant "primary"] [%size "small"] [%type "submit"] [%name "action"] [%value "save"]]
                     ;sl-icon(slot "prefix", name "file-earmark-check", class "text-lg");
                     ; save
                   ==
@@ -117,6 +143,9 @@
           ==
         ==
     ==
+  ::
+  ++  data
+    "window.scratch = \{ text: `{norm}` }"
   ::
   ++  list
     ;div.flex-1.overflow-y-auto
