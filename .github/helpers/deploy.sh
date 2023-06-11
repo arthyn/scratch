@@ -24,7 +24,7 @@ cd /home/kaladin
 rsync -avL --delete $urbit_repo/pkg/base-dev/ '$folder'
 rsync -avL $landscape_repo/desk-dev/ '$folder'
 rsync -avL $source_repo/desk/ '$folder'
-curl -s --data '\''{"source":{"dojo":"+hood/commit %'$desk'"},"sink":{"app":"hood"}}'\'' http://localhost:12321
+curl -s --data '\''{"source":{"dojo":"+hood/commit %'$desk'"},"sink":{"app":"hood"}}'\'' http://localhost:12323
 rm -rf $source_repo
 rm -rf $urbit_repo
 rm -rf $landscape_repo
