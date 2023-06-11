@@ -91,24 +91,8 @@
                         ;span: saved
                       ==
                 ==
-                ;div.flex.justify-end.items-center.gap-2
-                  ;+  %:  mx
-                    %sl-button
-                    ''
-                    :~  [%variant "neutral"]
-                        [%outline ""] 
-                        [%size "small"] 
-                        [%aria-label "Copy URL"]
-                        [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view'))"]
-                    ==
-                    ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg"); 
-                  ==
-                  ;+  %:  mx
-                    %sl-button
-                    ''
-                    ~[[%'@click' "$refs.delete.show()"] [%variant "danger"] [%outline ""] [%size "small"] [%aria-label "Delete"]]
-                    ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg"); 
-                  ==
+                ;div.flex.justify-end.items-center.gap-2.self-start
+                  ;*  actions
                   ;+  %:  mx
                     %sl-button
                     ''
@@ -153,18 +137,40 @@
             ~(tap by pile)
           |=  [key=@t text=@t]
           =/  text  (trip text)
-          ;a(href "{base}/{(trip key)}", class "flex flex-col p-2 rounded-md hover:bg-gray-700 transition-colors")
+          ;a(href "{base}/{(trip key)}", class "flex flex-col p-2 rounded-md border-2 border-transparent hover:border-sky-500 hover:border-opacity-80 transition-colors {?:(=(key ^key) "bg-gray-700" "")}")
             ;strong: {(trip key)}
             ;span.text-gray-500.truncate: {(welp `tape`(swag [0 48] text) ?:((gte (lent text) 48) "..." ""))}
           ==
     ==
   ::
   ++  new-note
-    ;a(href base, class "flex-none flex items-center p-2 rounded-md text-sky-500 border-2 border-transparent hover:border-sky-500 hover:border-opacity-50 transition-colors")
+    ;a(href base, class "flex-none flex items-center p-2 rounded-md text-sky-500 border-2 border-transparent hover:border-sky-500 hover:border-opacity-80 transition-colors")
       ;sl-icon(name "file-earmark-plus", class "text-lg text-sky-700 opacity-70 mr-2");
       ;strong: new note
     ==
-  ::      
+  ::
+  ++  actions
+    ^-  marl
+    ?:  empty  ~
+    :~  %:  mx
+          %sl-button
+          ''
+          :~  [%variant "neutral"]
+              [%outline ""] 
+              [%size "small"] 
+              [%title "Copy URL"]
+              [%aria-label "Copy URL"]
+              [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view'))"]
+          ==
+          ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg"); 
+        ==
+        %:  mx
+          %sl-button
+          ''
+          ~[[%'@click' "$refs.delete.show()"] [%variant "danger"] [%outline ""] [%size "small"] [%aria-label "Delete"]]
+          ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg"); 
+        ==
+    ==
   --
 ::
 ::  fair winds to ye!

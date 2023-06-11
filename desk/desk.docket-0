@@ -1,9 +1,10 @@
 :~  title+'scratch'
-    info+'An Urbit app that does great things'
-    color+0x2e.4347
+    info+'for writing and sharing bits of text'
+    color+0xe.a5e9
     site+/scratch
     base+'scratch'
     version+[0 0 1]
-    website+'https://github.com'
+    image+'https://nyc3.digitaloceanspaces.com/hmillerdev/nocsyx-lassul/2023.6.11..05.43.03-scratch.svg'
+    website+'https://github.com/arthyn/scratch'
     license+'MIT'
 ==

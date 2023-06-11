@@ -1,0 +1,28 @@
+name: Deploy Scratch
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        required: false
+        default: master
+        description: Enter the tag to deploy
+  push:
+    branches:
+      - 'master'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: "Deploy scratch to live"
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.tag }}
+      - id: deploy
+        name: Deploy
+        run:
+          ./.github/helpers/deploy.sh arthyn/scratch scratch urbit/dister-nocsyx-lassul ${{ github.event.inputs.tag }}
+        env:
+          SSH_SEC_KEY: ${{ secrets.SSH_SEC_KEY }}
+          SSH_PUB_KEY: ${{ secrets.SSH_PUB_KEY }}
+          URBIT_REPO_TAG: ${{ vars.URBIT_REPO_TAG }}
