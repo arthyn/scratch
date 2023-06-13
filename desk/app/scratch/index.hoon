@@ -1,6 +1,6 @@
-/-  *scratch
+/-  *scratch, *docket
 /+  *ui
-/+  rudder
+/+  rudder, agentio
 ::
 ^-  (page:rudder pile action)
 ::
@@ -8,6 +8,7 @@
         =order:rudder
         =pile
     ==
++*  io    ~(. agentio bowl)
 ++  argue
   |=  [headers=header-list:http body=(unit octs)]
   ^-  $@(brief:rudder action)
@@ -52,7 +53,7 @@
   ^-  reply:rudder
   |^  [%page page]
   ++  page
-    %^  template  q.byk.bowl  "scratch"
+    %^  template  q.byk.bowl  ?:(empty "new note | scratch" "{(trip key)} | scratch")
     :~  ;script: {data}
         ;main(class "md:flex h-full")
           ;aside(class "hidden md:flex p-4 pr-2 flex-none flex-col h-full space-y-2 min-w-[120px] max-w-[30%]")
@@ -144,9 +145,14 @@
     ==
   ::
   ++  new-note
-    ;a(href base, class "flex-none flex items-center p-2 rounded-md text-sky-500 border-2 border-transparent hover:border-sky-500 hover:border-opacity-80 transition-colors")
-      ;sl-icon(name "file-earmark-plus", class "text-lg text-sky-700 opacity-70 mr-2");
-      ;strong: new note
+    =/  docket  .^(docket %cx (scry:io q.byk.bowl /desk/docket-0))
+    =*  v  version.docket
+    ;div.flex.items-center.justify-between.gap-2
+      ;a(href base, class "flex-1 flex items-center py-1 px-2 leading-4 rounded-md text-sky-500 border-2 border-transparent hover:border-sky-500 hover:border-opacity-80 transition-colors")
+        ;sl-icon(name "file-earmark-plus", class "text-lg text-sky-700 opacity-70 mr-2");
+        ;strong: new scratch
+      ==
+      ;span.flex-none.text-gray-500.font-mono.text-sm: {<major.v>}.{<minor.v>}.{<patch.v>}
     ==
   ::
   ++  actions

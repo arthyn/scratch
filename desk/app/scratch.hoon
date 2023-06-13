@@ -129,6 +129,8 @@
     [~ ~]       `[%away (snip ^site)]
     [%index ~]  `[%away (snip ^site)]
     [%view @ ~]   `[%page | %view]
+    :: favicon
+    [%icon ~]     `[%page | %icon]
   ::
       [@ ~]       
     ?:  (~(has in have) i.u.site)
