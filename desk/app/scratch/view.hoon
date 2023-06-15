@@ -44,7 +44,7 @@
             ==
             ;+  %:  mx
               %sl-textarea
-              'flex-1 ${tws({ base: "h-full", textarea: "h-full font-mono overflow-x-auto whitespace-pre" })}'
+              'flex-1 ${tws({ base: "h-full", textarea: "h-full font-mono overflow-x-auto whitespace-pre-wrap" })}'
               ~[[%name "text"] [%value ?~(file "" (trip text.u.file))] [%readonly ""]]
               ~
             ==
