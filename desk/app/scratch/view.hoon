@@ -34,12 +34,7 @@
               ;h1.font-semibold.text-2xl.ml-4:  {(trip key)}
               ;div.flex.items-center.space-x-2
                 ;span(class "hidden sm:inline-block text-gray-400"): Write and share your own notes
-                ;+  %:  mx
-                  %sl-button
-                  ''
-                  ~[[%'@click' "$refs.install.show()"] [%variant "primary"] [%size "small"]]
-                  ;+  ;/  "install scratch"
-                ==
+                ;sl-button(href "https://pier.link/apps/grid/search/~dister-nocsyx-lassul/apps/~dister-nocsyx-lassul/scratch", variant "primary", size "small"): install scratch
               ==
             ==
             ;+  %:  mx
@@ -48,24 +43,6 @@
               ~[[%name "text"] [%value ?~(file "" (trip text.u.file))] [%readonly ""]]
               ~
             ==
-            ;sl-dialog#install(label "Install Scratch", x-ref "install")
-                ;sl-input(x-model "url", label "Enter your urbit's URL to install this app", placeholder "http://localhost:8080");
-                ;div(slot "footer")
-                  ;+  %:  mx
-                    %sl-button
-                    ''
-                    ~[[%'@click' "$refs.install.hide()"] [%variant "text"] [%size "small"] [%type "button"]]
-                    ; cancel
-                  ==
-                  ;+  %:  mx
-                    %sl-button
-                    ''
-                    ~[[%variant "primary"] [%size "small"] [%':href' "`$\{url}/apps/grid/search/~dister-nocsyx-lassul/apps/~dister-nocsyx-lassul/scratch`"] [%':disabled' "url === ''"]]
-                    ;sl-icon(slot "suffix", name "arrow-right", class "text-lg");
-                    ; go
-                  ==
-                ==
-              ==              
           ==
         ==
     ==
