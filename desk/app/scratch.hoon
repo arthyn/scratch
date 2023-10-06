@@ -83,13 +83,14 @@
 ++  poke
   |=  [=mark =vase]
   ^+  cor
-  ?>  =(src our):bowl
   ?+    mark  ~|(bad-poke/mark !!)
       %save
+    ?>  =(src our):bowl
     =+  !<(=save vase)
     sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)  
     ::
       %delete
+    ?>  =(src our):bowl
     =+  !<(=key vase)
     sc-abet:sc-delete:(sc-abed:sc-core key)
     ::
