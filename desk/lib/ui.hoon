@@ -20,7 +20,7 @@
       :: ;script(src "/session.js");
       :: ;+  (inject:tonic desk)
     ==
-    ;+  %:  mx 
+    ;+  %:  mx
           %body
           'h-full text-base font-sans text-gray-100 bg-gray-800'
           ~[[%x-data "twind"]]
@@ -35,7 +35,7 @@
   '''
   import alpineTurboDriveAdapter from 'https://cdn.skypack.dev/alpine-turbo-drive-adapter';
   import hotwiredTurbo from 'https://cdn.skypack.dev/@hotwired/turbo@7.1';
-  import Alpine from 'https://cdn.skypack.dev/alpinejs@3.x.x'
+  import Alpine from 'https://cdn.skypack.dev/alpinejs@3.12.x'
   import { tw, apply, setup } from 'https://cdn.skypack.dev/twind'
   import * as colors from 'https://cdn.skypack.dev/twind/colors'
   import { css } from 'https://cdn.skypack.dev/twind/css'
@@ -57,10 +57,10 @@
       return obj;
     }, {});
     return () => styles;
-  } 
+  }
 
   document.addEventListener('alpine:init', () => {
-    Alpine.data('twind', () => ({ 
+    Alpine.data('twind', () => ({
       tw,
       tws,
       copy: copyTextToClipboard,
@@ -70,7 +70,7 @@
   function fallbackCopyTextToClipboard(text) {
     var textArea = document.createElement("textarea");
     textArea.value = text;
-    
+
     // Avoid scrolling to bottom
     textArea.style.top = "0";
     textArea.style.left = "0";

@@ -87,7 +87,7 @@
       %save
     ?>  =(src our):bowl
     =+  !<(=save vase)
-    sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)  
+    sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
     ::
       %delete
     ?>  =(src our):bowl
@@ -109,7 +109,7 @@
       ^-  $@(brief:rudder [brief:rudder (list card) _pile])
       =^  caz  pile
         ?-  action.act
-            %save  
+            %save
           [[%saved cards] pile]:(poke %save !>([key.act text.act]))
             %delete
           [[%deleted cards] pile]:(poke %delete !>(key.act))
@@ -133,7 +133,7 @@
     :: favicon
     [%icon ~]     `[%page | %icon]
   ::
-      [@ ~]       
+      [@ ~]
     ?:  (~(has in have) i.u.site)
       `[%page & i.u.site]
     `[%page & %index]

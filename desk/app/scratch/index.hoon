@@ -25,10 +25,10 @@
 ++  final
   |=  [trail:rudder rsp=(response:rudder action)]
   ^-  reply:rudder
-  ?-  -.rsp  
+  ?-  -.rsp
       %.n  (build [~ /] ~ `[| `@t`msg.rsp])
-        %.y  
-      :*  %next 
+        %.y
+      :*  %next
           ?-  action.cmd.rsp
             %save  (spat /[dap.bowl]/[key.cmd.rsp])
             %delete  (spat /[dap.bowl])
@@ -43,7 +43,7 @@
       ==
   =/  saved  ?~(msg | =(txt.u.msg 'saved'))
   =/  empty  (lte (lent site.trail) 1)
-  =/  =key  
+  =/  =key
       ?:  !empty  (snag 1 site.trail)
       (crip (scag 5 (flop (trip (scot %uv eny.bowl)))))
   =/  file=(unit file)  (~(get by pile) key)
@@ -59,18 +59,20 @@
           ;aside(class "hidden md:flex p-4 pr-2 flex-none flex-col h-full space-y-2 min-w-[120px] max-w-[30%]")
             ;+  list
             ;+  new-note
-          ==  
+          ==
           ;sl-drawer(class "block md:hidden", x-ref "drawer", placement "start")
             ;+  new-note
             ;+  list
           ==
           ;section.flex-1.h-full.p-4.pl-2
             ;form.flex.flex-col.h-full.space-y-6(method "post", x-data "\{ og: window.scratch.text, text: window.scratch.text }")
-              ;+  %:  mx
-                %sl-textarea
-                'flex-1 ${tws({ base: "h-full", textarea: "h-full font-mono" })}'
-                ~[[%name "text"] [%x-model "text"]]
-                ~
+              ;div(class "flex-1 h-full")
+                ;+  %:  mx
+                  %sl-textarea
+                  '${tws({ base: "h-full", textarea: "h-full font-mono" })}'
+                  ~[[%name "text"] [%x-model "text"]]
+                  ~
+                ==
               ==
               ;div(class "flex flex-col md:flex-row justify-between gap-4")
                 ;+  %:  mx
@@ -124,7 +126,7 @@
                   ==
                 ==
               ==
-            ==                    
+            ==
           ==
         ==
     ==
@@ -162,19 +164,19 @@
           %sl-button
           ''
           :~  [%variant "neutral"]
-              [%outline ""] 
-              [%size "small"] 
+              [%outline ""]
+              [%size "small"]
               [%title "Copy URL"]
               [%aria-label "Copy URL"]
               [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view'))"]
           ==
-          ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg"); 
+          ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg");
         ==
         %:  mx
           %sl-button
           ''
           ~[[%'@click' "$refs.delete.show()"] [%variant "danger"] [%outline ""] [%size "small"] [%aria-label "Delete"]]
-          ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg"); 
+          ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg");
         ==
     ==
   --
