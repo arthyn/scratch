@@ -12,7 +12,9 @@
   +$  card  card:agent:gall
   --
 ::
-=|  state-1
+~&  "running scratch"
+=/  verbose  &
+=|  state-2
 =*  state  -
 =<
   %+  verb  &
@@ -71,22 +73,39 @@
 ++  cor   .
 ++  emit  |=(=card cor(cards [card cards]))
 ++  give  |=(=gift:agent:gall (emit %give gift))
+++  log
+  |=  msg=(trap tape)
+  ?.  verbose  same
+  (slog leaf+"%{(trip dap.bowl)} {(msg)}" ~)
 ++  init
   ^+  cor
   cor
 ++  load
   |=  =vase
-  =/  old  !<(state-1 vase)
-  =.  state  old
-  cor
+  |^
+  =+  !<(old=versioned-state vase)
+  =?  old  ?=(%1 -.old)  (state-1-to-2 old)
+  ?>  ?=(%2 -.old)
+  cor(state old)
+  ++  state-1-to-2
+    |=  old=state-1
+    ^-  state-2
+    :-  %2
+    ^-  ^pile
+    %-  ~(run by pile.old)
+    |=  =file:v1:^old
+    [text.file %plain]
+  --
 ::
 ++  poke
   |=  [=mark =vase]
   ^+  cor
   ?+    mark  ~|(bad-poke/mark !!)
       %save
+    %-  (log |.("save poke"))
     ?>  =(src our):bowl
     =+  !<(=save vase)
+    %-  (log |.("saving {<save>}"))
     sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
     ::
       %delete
@@ -107,10 +126,11 @@
         (fours:rudder pile)
       |=  act=action
       ^-  $@(brief:rudder [brief:rudder (list card) _pile])
+      ~&  act
       =^  caz  pile
         ?-  action.act
             %save
-          [[%saved cards] pile]:(poke %save !>([key.act text.act]))
+          [[%saved cards] pile]:(poke %save !>([key.act [text view]:act]))
             %delete
           [[%deleted cards] pile]:(poke %delete !>(key.act))
         ==

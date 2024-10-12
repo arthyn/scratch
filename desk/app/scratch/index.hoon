@@ -1,29 +1,31 @@
-/-  *scratch, *docket
+/-  s=scratch, *docket
 /+  *ui
 /+  rudder, agentio
 ::
-^-  (page:rudder pile action)
+^-  (page:rudder pile:s action:s)
 ::
 |_  $:  =bowl:gall
         =order:rudder
-        =pile
+        =pile:s
     ==
 +*  io    ~(. agentio bowl)
 ++  argue
   |=  [headers=header-list:http body=(unit octs)]
-  ^-  $@(brief:rudder action)
+  ^-  $@(brief:rudder action:s)
   =/  args=(map @t @t)
     ?~(body ~ (frisk:rudder q.u.body))
   ?~  key=(~(get by args) 'key')  ~
   ?~  text=(~(get by args) 'text')  ~
   ?~  act=(~(get by args) 'action')  ~
+  =/  view=@t  (~(gut by args) 'view' 'plain')
+  ?~  display=(rush view (perk %plain %md %html ~))  ~
   ?:  =(u.act 'save')
-    [%file u.key u.text %save]
+    [%file u.key u.text u.display %save]
   ?:  =(u.act 'delete')
-    [%file u.key u.text %delete]
+    [%file u.key u.text u.display %delete]
   ~
 ++  final
-  |=  [trail:rudder rsp=(response:rudder action)]
+  |=  [trail:rudder rsp=(response:rudder action:s)]
   ^-  reply:rudder
   ?-  -.rsp
       %.n  (build [~ /] ~ `[| `@t`msg.rsp])
@@ -43,13 +45,15 @@
       ==
   =/  saved  ?~(msg | =(txt.u.msg 'saved'))
   =/  empty  (lte (lent site.trail) 1)
-  =/  =key
+  =/  =key:s
       ?:  !empty  (snag 1 site.trail)
       (crip (scag 5 (flop (trip (scot %uv eny.bowl)))))
-  =/  file=(unit file)  (~(get by pile) key)
+  =/  file=(unit file:s)  (~(get by pile) key)
   =/  base  (spud /[dap.bowl])
   =/  text  ?~(file "" (trip text.u.file))
-  =/  norm  (scan text (star ;~(pose (cold '\\`' (just '`')) next)))
+  =/  norm=tape  (scan text (star ;~(pose (cold '\\`' (just '`')) next)))
+  =/  view=view:s  ?~(file %plain view.u.file)
+  =/  display=tape  (trip view)
   ^-  reply:rudder
   |^  [%page page]
   ++  page
@@ -65,22 +69,17 @@
             ;+  list
           ==
           ;section.flex-1.h-full.p-4.pl-2
-            ;form.flex.flex-col.h-full.space-y-6(method "post", x-data "\{ og: window.scratch.text, text: window.scratch.text }")
+            ;form.flex.flex-col.h-full.space-y-6(method "post", x-data "\{ og: window.scratch.text, text: window.scratch.text, view: window.scratch.view, ogview: window.scratch.view }")
               ;div(class "flex-1 h-full")
-                ;+  %:  mx
-                  %sl-textarea
-                  '${tws({ base: "h-full", textarea: "h-full font-mono" })}'
-                  ~[[%name "text"] [%x-model "text"]]
-                  ~
-                ==
+                ;sl-textarea(class "part-[base]:h-full part-[textarea]:h-full font-mono", x-model "text", name "text");
               ==
               ;div(class "flex flex-col md:flex-row justify-between gap-4")
                 ;+  %:  mx
                   %sl-input
-                  'flex-1'
                   %+  welp  ?:(empty ~ ~[[%readonly ""]])
                   :~  [%name "key"]
                       [%size "small"]
+                      [%class "flex-1"]
                       [%value (trip key)]
                       [%required ""]
                       [%pattern "[\\w.~\\-]*"]
@@ -94,19 +93,17 @@
                         ;span: saved
                       ==
                 ==
-                ;div.flex.justify-end.items-center.gap-2.self-start
+                ;div.flex.justify-end.items-start.gap-2.self-start
                   ;*  actions
                   ;+  %:  mx
                     %sl-button
-                    ''
-                    ~[[%':disabled' "og === text"] [%variant "primary"] [%size "small"] [%type "submit"] [%name "action"] [%value "save"]]
+                    ~[[%':disabled' "og === text && ogview === view"] [%variant "primary"] [%size "small"] [%type "submit"] [%name "action"] [%value "save"]]
                     ;sl-icon(slot "prefix", name "file-earmark-check", class "text-lg");
                     ; save
                   ==
                   ;+  %:  mx
                     %sl-button
-                    'md:hidden'
-                    ~[[%'@click' "$refs.drawer.show()"] [%variant "secondary"] [%outline ""] [%size "small"] [%type "button"]]
+                    ~[[%class "md:hidden"] [%'@click' "$refs.drawer.show()"] [%variant "secondary"] [%outline ""] [%size "small"] [%type "button"]]
                     ;+  ;sl-icon(name "list", class "text-lg", slot "prefix");
                   ==
                 ==
@@ -116,7 +113,6 @@
                 ;div(slot "footer")
                   ;+  %:  mx
                     %sl-button
-                    ''
                     ~[[%'@click' "$refs.delete.hide()"] [%variant "text"] [%size "small"] [%type "button"]]
                     ; cancel
                   ==
@@ -132,13 +128,13 @@
     ==
   ::
   ++  data
-    "window.scratch = \{ text: `{norm}` }"
+    "window.scratch = \{ text: `{norm}`, view: `{display}` }"
   ::
   ++  list
     ;div.flex-1.overflow-y-auto
       ;*  %+  turn
             ~(tap by pile)
-          |=  [key=@t text=@t]
+          |=  [=key:s =text:s =view:s]
           =/  text  (trip text)
           ;a(href "{base}/{(trip key)}", class "flex flex-col p-2 rounded-md border-2 border-transparent hover:border-sky-500 hover:border-opacity-80 transition-colors {?:(=(key ^key) "bg-gray-700" "")}")
             ;strong: {(trip key)}
@@ -157,12 +153,26 @@
       ;span.flex-none.text-gray-500.font-mono.text-sm: {<major.v>}.{<minor.v>}.{<patch.v>}
     ==
   ::
+  ++  display-dropdown
+    %:  mx
+      %sl-select
+      :~  [%size "small"]
+          [%name "view"]
+          [%value "plain"]
+          [%x-model "view"]
+      ==
+      ;=  ;sl-option(value "plain"): plain
+          ;sl-option(value "md"): markdown
+          ;sl-option(value "html"): html
+          ;span(slot "help-text"): view mode
+      ==
+    ==
   ++  actions
     ^-  marl
-    ?:  empty  ~
-    :~  %:  mx
+    ?:  empty  ~[display-dropdown]
+    :~  display-dropdown
+        %:  mx
           %sl-button
-          ''
           :~  [%variant "neutral"]
               [%outline ""]
               [%size "small"]
@@ -174,7 +184,6 @@
         ==
         %:  mx
           %sl-button
-          ''
           ~[[%'@click' "$refs.delete.show()"] [%variant "danger"] [%outline ""] [%size "small"] [%aria-label "Delete"]]
           ;+  ;sl-icon(slot "prefix", name "trash", class "text-lg");
         ==

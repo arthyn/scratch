@@ -1,0 +1,5 @@
+@import '@shoelace-style/shoelace/dist/themes/dark.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
