@@ -5,7 +5,7 @@
 ::    subscription endpoint that provides the current desk commit.
 ::
 ::    the included $inject gate will add a script into your sail page
-::    that will watch for new desk commits and refresh the page if it 
+::    that will watch for new desk commits and refresh the page if it
 ::    receives a new commit.
 ::
 /+  default-agent, dbug, verb
@@ -153,7 +153,6 @@
   |=  desk=@tas
   ^-  manx
   =/  dek=tape  (trip desk)
-  ~&  dek
   =-  ;script(type "module"): {-}
   """
   import urbitHttpApi from 'https://cdn.skypack.dev/@urbit/http-api';
@@ -161,7 +160,7 @@
 
   const api = new urbitHttpApi('', '', '{dek}');
   api.ship = window.ship;
-  
+
   let first = true;
   let oldRev = 0;
 
@@ -169,7 +168,7 @@
     if (oldRev !== cass.rev && !first) \{
       location.reload();
     }
-      
+
     first = false;
     oldRev = cass.rev;
   }

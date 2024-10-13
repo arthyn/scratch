@@ -12,7 +12,6 @@
   +$  card  card:agent:gall
   --
 ::
-~&  "running scratchh"
 =/  verbose  &
 =|  state-2
 =*  state  -
@@ -106,7 +105,15 @@
     ?>  =(src our):bowl
     =+  !<(=save vase)
     %-  (log |.("saving {<save>}"))
-    sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
+    =.  cor  sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
+    =/  view  (~(got by pages) %view)
+    =/  url=path  /scratch/view/[p.save]
+    =/  =request:http  [%'GET' (spat url) ~ ~]
+    =/  =order:rudder  [%order | | [%ipv4 *@if] request]
+    =*  page  ~(. view bowl order pile)
+    =/  =cache-entry:eyre
+      [| [%payload (paint:rudder (build:page [~ url] ~ ~))]]
+    (emit (store:rudder (spat url) `cache-entry))
     ::
       %delete
     ?>  =(src our):bowl
@@ -126,7 +133,6 @@
         (fours:rudder pile)
       |=  act=action
       ^-  $@(brief:rudder [brief:rudder (list card) _pile])
-      ~&  act
       =^  caz  pile
         ?-  action.act
             %save
@@ -146,7 +152,6 @@
   ^-  (unit place)
   ?~  site=(decap:rudder base site)  ~
   =/  =(pole knot)  u.site
-  ~&  "request at {<pole>} with base {<base>}"
   ?-  pole
     ~           `[%page & %index]
     [~ ~]       `[%away (snip ^site)]

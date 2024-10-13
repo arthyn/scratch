@@ -22,11 +22,11 @@
           msg=(unit [gud=? txt=@t])
       ==
   ^-  reply:rudder
-  ~&  "serving file {<trail>}"
-  |^  [%full (get-file trail)]
+  |^  [%full (get-file trail) &]
   ++  get-file
     |=  =trail:rudder
     ^-  simple-payload:http
+    =,  gen:server
     =/  stripped  (slag 2 site.trail)
     =/  scry-path=path
       %-  lowercase
@@ -39,27 +39,19 @@
       ^-  path
       ?~  ext.trail  (weld stripped /index/html)
       (snoc stripped u.ext.trail)
-    ~&  "scrying path {<scry-path>}"
-    ?.  .^(? %cu scry-path)  not-found:gen:server
+    ?.  .^(? %cu scry-path)  not-found
     =/  file  (as-octs:mimes:html .^(@ %cx scry-path))
-    ~&  "got file {<scry-path>}"
     ?~  ext.trail
-      (html-response:gen:server file)
+      (html-response file)
     ?:  ?=(%woff2 u.ext.trail)
       [[200 [['content-type' '/font/woff2'] ~]] `.^(octs %cx scry-path)]
-    ~&  "serving file {<scry-path>} with extension {<u.ext.trail>}"
-    ?+  u.ext.trail  not-found:gen:server
-        %js    (js-response:gen:server file)
-        %css   (css-response:gen:server file)
-        %png   (png-response:gen:server file)
-        %svg   (svg-response:gen:server file)
-        %ico   (ico-response:gen:server file)
-      ::
-          %html
-        %.  file
-        %*    .   html-response:gen:server
-            cache  %.y
-        ==
+    ?+  u.ext.trail  not-found
+        %ico   (ico-response file)
+        %js    (%*(. js-response cache %.y) file)
+        %css   (%*(. css-response cache %.y) file)
+        %png   (%*(. png-response cache %.y) file)
+        %svg   (%*(. svg-response cache %.y) file)
+        %html  (%*(. html-response cache %.y) file)
     ==
   ++  lowercase
     |=  upper=(list @t)

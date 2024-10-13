@@ -55,7 +55,7 @@
   =/  view=view:s  ?~(file %plain view.u.file)
   =/  display=tape  (trip view)
   ^-  reply:rudder
-  |^  [%page page]
+  |^  [%page page |]
   ++  page
     %^  template  q.byk.bowl  ?:(empty "new note | scratch" "{(trip key)} | scratch")
     :~  ;script: {data}
@@ -173,6 +173,9 @@
     ^-  marl
     ?:  empty  ~[display-dropdown]
     :~  display-dropdown
+        ;sl-button(variant "neutral", outline "", size "small", title "View", aria-label "View", href "/scratch/view/{(trip key)}", target "_blank")
+          ;sl-icon(slot "prefix", name "eye", class "text-lg");
+        ==
         %:  mx
           %sl-button
           :~  [%variant "neutral"]
@@ -180,7 +183,7 @@
               [%size "small"]
               [%title "Copy URL"]
               [%aria-label "Copy URL"]
-              [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view'))"]
+              [%'@click' "copy(window.location.toString().replace('/scratch', '/scratch/view').replace('?rmsg=saved', ''))"]
           ==
           ;+  ;sl-icon(slot "prefix", name "stickies", class "text-lg");
         ==
