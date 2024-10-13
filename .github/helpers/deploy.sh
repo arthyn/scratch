@@ -20,6 +20,9 @@ urbit_repo=$(mktemp --dry-run /tmp/repo.urbit.XXXXXXXXX)
 git clone --depth 1 git@github.com:urbit/urbit.git $urbit_repo -b '$URBIT_REPO_TAG' --single-branch
 landscape_repo=$(mktemp --dry-run /tmp/repo.landscape.XXXXXXXXX)
 git clone --depth 1 --branch master git@github.com:tloncorp/landscape.git $landscape_repo
+cd $source_repo/ui
+npm ci
+npm run build
 cd /home/kaladin
 rsync -avL --delete $urbit_repo/pkg/base-dev/ '$folder'
 rsync -avL $landscape_repo/desk-dev/ '$folder'
