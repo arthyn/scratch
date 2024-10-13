@@ -1,5 +1,5 @@
 /-  *scratch
-/+  rudder, tonic, default-agent, verb, dbug
+/+  rudder, tonic, server, default-agent, verb, dbug
 ::
 /~    pages
     (page:rudder pile action)
@@ -12,7 +12,8 @@
   +$  card  card:agent:gall
   --
 ::
-=|  state-1
+=/  verbose  &
+=|  state-2
 =*  state  -
 =<
   %+  verb  &
@@ -71,23 +72,48 @@
 ++  cor   .
 ++  emit  |=(=card cor(cards [card cards]))
 ++  give  |=(=gift:agent:gall (emit %give gift))
+++  log
+  |=  msg=(trap tape)
+  ?.  verbose  same
+  (slog leaf+"%{(trip dap.bowl)} {(msg)}" ~)
 ++  init
   ^+  cor
   cor
 ++  load
   |=  =vase
-  =/  old  !<(state-1 vase)
-  =.  state  old
-  cor
+  |^
+  =+  !<(old=versioned-state vase)
+  =?  old  ?=(%1 -.old)  (state-1-to-2 old)
+  ?>  ?=(%2 -.old)
+  cor(state old)
+  ++  state-1-to-2
+    |=  old=state-1
+    ^-  state-2
+    :-  %2
+    ^-  ^pile
+    %-  ~(run by pile.old)
+    |=  =file:v1:^old
+    [text.file %plain]
+  --
 ::
 ++  poke
   |=  [=mark =vase]
   ^+  cor
   ?+    mark  ~|(bad-poke/mark !!)
       %save
+    %-  (log |.("save poke"))
     ?>  =(src our):bowl
     =+  !<(=save vase)
-    sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
+    %-  (log |.("saving {<save>}"))
+    =.  cor  sc-abet:(sc-save:(sc-abed:sc-core p.save) q.save)
+    =/  view  (~(got by pages) %view)
+    =/  url=path  /scratch/view/[p.save]
+    =/  =request:http  [%'GET' (spat url) ~ ~]
+    =/  =order:rudder  [%order | | [%ipv4 *@if] request]
+    =*  page  ~(. view bowl order pile)
+    =/  =cache-entry:eyre
+      [| [%payload (paint:rudder (build:page [~ url] ~ ~))]]
+    (emit (store:rudder (spat url) `cache-entry))
     ::
       %delete
     ?>  =(src our):bowl
@@ -110,7 +136,7 @@
       =^  caz  pile
         ?-  action.act
             %save
-          [[%saved cards] pile]:(poke %save !>([key.act text.act]))
+          [[%saved cards] pile]:(poke %save !>([key.act [text view]:act]))
             %delete
           [[%deleted cards] pile]:(poke %delete !>(key.act))
         ==
@@ -125,7 +151,8 @@
   |=  trail
   ^-  (unit place)
   ?~  site=(decap:rudder base site)  ~
-  ?-  u.site
+  =/  =(pole knot)  u.site
+  ?-  pole
     ~           `[%page & %index]
     [~ ~]       `[%away (snip ^site)]
     [%index ~]  `[%away (snip ^site)]
@@ -133,12 +160,13 @@
     :: favicon
     [%icon ~]     `[%page | %icon]
   ::
-      [@ ~]
-    ?:  (~(has in have) i.u.site)
-      `[%page & i.u.site]
+      [part=@ ~]
+    ?:  (~(has in have) part.pole)
+      `[%page & part.pole]
     `[%page & %index]
   ::
     [@ ~ ~]         `[%away (snip ^site)]
+    [%'~' rest=*]   `[%page | %serve]
     *               ~
   ==
 ::

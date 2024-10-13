@@ -22,13 +22,24 @@
           msg=(unit [gud=? txt=@t])
       ==
   =/  =key  (snag 2 site.trail)
-  =/  file=(unit file)  (~(get by pile) key)
+  =/  =file  (~(got by pile) key)
+  =/  norm=tape  (scan (trip text.file) (star ;~(pose (cold '\\`' (just '`')) next)))
   ^-  reply:rudder
-  |^  [%page page]
+  |^  [%page page &]
   ++  page
     :: compile
-    %^  template  q.byk.bowl  "{(trip key)} | scratch"   
-    :~  ;main.flex.justify-center.h-full(x-data "\{ url: ''}") 
+    ?:  =(%html view.file)
+      ?~  content=(de-xml:html text.file)
+          ;html
+            ;body
+              ;div: Unable to parse HTML
+            ==
+          ==
+        u.content
+    ?<  ?=(%html view.file)
+    %^  template  q.byk.bowl  "{(trip key)} | scratch"
+    :~  ;script: {data}
+        ;main.flex.justify-center.h-full(x-data "\{ url: ''}")
           ;section.flex.flex-col.w-full.h-full.p-4.pl-2
             ;div.flex.items-center.justify-between.mb-3
               ;h1.font-semibold.text-2xl.ml-4:  {(trip key)}
@@ -37,15 +48,22 @@
                 ;sl-button(href "https://pier.link/apps/grid/search/~dister-nocsyx-lassul/apps/~dister-nocsyx-lassul/scratch", variant "primary", size "small"): install scratch
               ==
             ==
-            ;+  %:  mx
-              %sl-textarea
-              'flex-1 ${tws({ base: "h-full", textarea: "h-full font-mono overflow-x-auto whitespace-pre-wrap" })}'
-              ~[[%name "text"] [%value ?~(file "" (trip text.u.file))] [%readonly ""]]
-              ~
+            ;div.flex-1.h-full
+              ;+  ?-  view.file
+                      %plain
+                    ;sl-textarea(name "text", value (trip text.file), readonly "", class "flex-1 part-[base]:h-full part-[textarea]:h-full part-[textarea]:font-mono part-[textarea]:overflow-x-auto part-[textarea]:whitespace-pre-wrap");
+                  ::
+                      %md
+                    ;div(class "prose prose-invert m-4", x-html "marked.parse(window.scratch.text)")
+                      ;md-block: {(trip text.file)}
+                    ==
+                  ==
             ==
           ==
         ==
     ==
+  ++  data
+    "window.scratch = \{ text: `{norm}` }"
   ::
   --
 ::

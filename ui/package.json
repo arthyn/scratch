@@ -1,0 +1,35 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tw": "npx tailwindcss -i ./index.css -o ./dist/index.css --watch",
+    "start": "rollup -c -w --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@tailwindcss/typography": "^0.5.15",
+    "postcss-import": "^16.1.0",
+    "rollup": "^4.24.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-css-only": "^4.5.2",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tailwindcss": "^3.4.13",
+    "tailwindcss-plugin-custom-elements": "^1.0.0"
+  },
+  "dependencies": {
+    "@hotwired/turbo": "^7.3.0",
+    "@shoelace-style/shoelace": "^2.17.1",
+    "alpine-turbo-drive-adapter": "^2.1.0",
+    "alpinejs": "^3.14.1",
+    "marked": "^14.1.2",
+    "marked-gfm-heading-id": "^4.1.0",
+    "md-block": "../../md-block"
+  }
+}

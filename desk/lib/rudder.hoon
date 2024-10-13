@@ -63,13 +63,13 @@
 +|  %types  ::  outputs, inputs, function signatures
 ::
 +$  reply
-  $%  [%page bod=manx]                                  ::  html page
-      [%xtra hed=header-list:http bod=manx]             ::  html page w/ heads
+  $%  [%page bod=manx cache=?]                                  ::  html page
+      [%xtra hed=header-list:http bod=manx cache=?]             ::  html page w/ heads
+      [%full ful=simple-payload:http cache=?]                   ::  full payload
       [%next loc=@t msg=brief]                          ::  303, succeeded
       [%move loc=@t]                                    ::  308, use other
       [%auth loc=@t]                                    ::  307, please log in
       [%code cod=@ud msg=brief]                         ::  error code page
-      [%full ful=simple-payload:http]                   ::  full payload
   ==
 ::
 +$  place
@@ -167,8 +167,13 @@
         ::NOTE  as set by %next replies
         ?~  msg=(get-header:http 'rmsg' args)  [~ args]
         [`[& u.msg] (delete-header:http 'rmsg' args)]
-      %+  spout  id
-      (paint (build:page [ext site] args msg))
+      =/  reply  (build:page [ext site] args msg)
+      =/  payload  (paint reply)
+      ?.  ?=(?(%page %extra %full) -.reply)  (spout id payload)
+      ?.  cache.reply  (spout id payload)
+      %+  snoc
+        (spout id payload)
+      (store url.request.order `[| [%payload payload]])
     ::
         %'POST'
       ?@  act=(argue:page [header-list body]:request.order)
@@ -289,4 +294,8 @@
       [%give %fact ~[path] [%http-response-data !>(data)]]
       [%give %kick ~[path] ~]
   ==
+++  store  ::  set cache entry
+  |=  [url=@t entry=(unit cache-entry:eyre)]
+  ^-  card:agent:gall
+  [%pass /eyre/cache %arvo %e %set-response url entry]
 --
