@@ -4,18 +4,17 @@ import copy from 'rollup-plugin-copy';
 import resolve from '@rollup/plugin-node-resolve';
 import postcss from 'rollup-plugin-postcss';
 import tailwindcss from 'tailwindcss';
+import importer from 'postcss-import';
 
 const tailwindConfig = require('./tailwind.config.js')
-
-export default {
-  input: 'index.js',
-  output: [{ dir: path.resolve(__dirname, 'dist'), format: 'es' }],
+const config = {
+  output: [{ dir: path.resolve(__dirname, 'dist'), format: 'umd', inlineDynamicImports: true }],
   plugins: [
     resolve(),
     commonjs(),
     postcss({
       extensions: ['.css'],
-      plugins: [tailwindcss(tailwindConfig)],
+      plugins: [importer(), tailwindcss(tailwindConfig)],
     }),
     // Copy Shoelace assets to dist/shoelace
     copy({
@@ -28,4 +27,15 @@ export default {
       ]
     })
   ]
-};
+}
+
+export default [
+  {
+    input: 'head.js',
+    ...config,
+  },
+  {
+    input: 'foot.js',
+    ...config,
+  }
+]

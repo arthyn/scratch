@@ -160,6 +160,8 @@
           [%name "view"]
           [%value "plain"]
           [%x-model "view"]
+          [%x-ref "view"]
+          [%'@sl-change' "$refs.view._x_model.set($event.target.value)"]
       ==
       ;=  ;sl-option(value "plain"): plain
           ;sl-option(value "md"): markdown

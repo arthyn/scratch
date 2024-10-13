@@ -1,5 +1,5 @@
 /-  *scratch
-/+  rudder, tonic, default-agent, verb, dbug
+/+  rudder, tonic, server, default-agent, verb, dbug
 ::
 /~    pages
     (page:rudder pile action)
@@ -12,7 +12,7 @@
   +$  card  card:agent:gall
   --
 ::
-~&  "running scratch"
+~&  "running scratchh"
 =/  verbose  &
 =|  state-2
 =*  state  -
@@ -145,7 +145,9 @@
   |=  trail
   ^-  (unit place)
   ?~  site=(decap:rudder base site)  ~
-  ?-  u.site
+  =/  =(pole knot)  u.site
+  ~&  "request at {<pole>} with base {<base>}"
+  ?-  pole
     ~           `[%page & %index]
     [~ ~]       `[%away (snip ^site)]
     [%index ~]  `[%away (snip ^site)]
@@ -153,12 +155,13 @@
     :: favicon
     [%icon ~]     `[%page | %icon]
   ::
-      [@ ~]
-    ?:  (~(has in have) i.u.site)
-      `[%page & i.u.site]
+      [part=@ ~]
+    ?:  (~(has in have) part.pole)
+      `[%page & part.pole]
     `[%page & %index]
   ::
     [@ ~ ~]         `[%away (snip ^site)]
+    [%'~' rest=*]   `[%page | %serve]
     *               ~
   ==
 ::

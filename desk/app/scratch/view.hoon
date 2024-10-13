@@ -23,12 +23,23 @@
       ==
   =/  =key  (snag 2 site.trail)
   =/  =file  (~(got by pile) key)
+  =/  norm=tape  (scan (trip text.file) (star ;~(pose (cold '\\`' (just '`')) next)))
   ^-  reply:rudder
   |^  [%page page]
   ++  page
     :: compile
+    ?:  =(%html view.file)
+      ?~  content=(de-xml:html text.file)
+          ;html
+            ;body
+              ;div: Unable to parse HTML
+            ==
+          ==
+        u.content
+    ?<  ?=(%html view.file)
     %^  template  q.byk.bowl  "{(trip key)} | scratch"
-    :~  ;main.flex.justify-center.h-full(x-data "\{ url: ''}")
+    :~  ;script: {data}
+        ;main.flex.justify-center.h-full(x-data "\{ url: ''}")
           ;section.flex.flex-col.w-full.h-full.p-4.pl-2
             ;div.flex.items-center.justify-between.mb-3
               ;h1.font-semibold.text-2xl.ml-4:  {(trip key)}
@@ -41,17 +52,16 @@
                     %plain
                   ;sl-textarea(name "text", value (trip text.file), readonly "", class "flex-1 part-[base]:h-full part-[textarea]:h-full font-mono overflow-x-auto whitespace-pre-wrap");
                 ::
-                    %html  ;div;
-                  ::  can we convert string straight to HTML here or do we need to use a component?
-                ::
                     %md
-                  ;div(class "prose prose-invert m-4")
+                  ;div(class "prose prose-invert m-4", x-html "marked.parse(window.scratch.text)")
                     ;md-block: {(trip text.file)}
                   ==
                 ==
           ==
         ==
     ==
+  ++  data
+    "window.scratch = \{ text: `{norm}` }"
   ::
   --
 ::
