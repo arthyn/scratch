@@ -25,17 +25,13 @@
   =/  =file  (~(got by pile) key)
   =/  norm=tape  (scan (trip text.file) (star ;~(pose (cold '\\`' (just '`')) next)))
   ^-  reply:rudder
+  ?:  =(%html view.file)
+    =/  hdr=response-header:http  [200 ~[['content-type' 'text/html']]]
+    =/  =octs  (as-octs:mimes:html text.file)
+    [%full [hdr `octs] &]
   |^  [%page page &]
   ++  page
     :: compile
-    ?:  =(%html view.file)
-      ?~  content=(de-xml:html text.file)
-          ;html
-            ;body
-              ;div: Unable to parse HTML
-            ==
-          ==
-        u.content
     ?<  ?=(%html view.file)
     %^  template  q.byk.bowl  "{(trip key)} | scratch"
     :~  ;script: {data}
