@@ -53,7 +53,7 @@
   =/  text  ?~(file "" (trip text.u.file))
   =/  norm=tape  (scan text (star ;~(pose (cold '\\`' (just '`')) next)))
   ~&  norm
-  =.  norm  (scan text (star ;~(pose (cold '<\\/script>' (jest '</script>')) next)))
+  =.  norm  (scan norm (star ;~(pose (cold '<\\/script>' (jest '</script>')) next)))
   ~&  norm
   =/  view=view:s  ?~(file %plain view.u.file)
   =/  display=tape  (trip view)
