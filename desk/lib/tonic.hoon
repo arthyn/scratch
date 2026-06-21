@@ -17,13 +17,13 @@
   ::
   +$  card  card:agent:gall
   ::
-  +$  state-0
-    $:  %0
+  +$  state-1
+    $:  %1
         on=?
     ==
   ::
   ++  helper
-    |_  [=bowl:gall state-0]
+    |_  [=bowl:gall state-1]
     +*  state  +<+
     ++  play-card
       |=  =card
@@ -57,7 +57,7 @@
   ::
   ++  agent
     |=  inner=agent:gall
-    =|  state-0
+    =|  state-1
     =*  state  -
     %+  verb  |
     ^-  agent:gall
@@ -72,7 +72,7 @@
       =^  cards   state  (play-cards:up cards)
       [cards this]
     ::
-    ++  on-save  !>([[%tonic state] on-save:og])
+    ++  on-save  (slop !>([%tonic state]) on-save:og)
     ++  on-load
       |=  ole=vase
       ^-  (quip card _this)
@@ -83,12 +83,23 @@
         =^  cards  state  (play-cards:up cards)
         [cards this]
       ::
-      =+  !<([[%tonic old=state-0] ile=vase] ole)
-      =.  state  old
-      =^  cards  inner  (on-load:og ile)
-      =^  cards  state  (play-card:up give)
-      =^  cards  state  (play-cards:up cards)
-      [cards this]
+      |^  =+  !<([%tonic old=state-any] (slot 2 ole))
+          =^  ile=vase  state
+            ::  state-0 had double-vased inner +on-save, coinciding with
+            ::  the h136 type-of-type. must upgrade inner vase.
+            ::
+            ?-  -.old
+              %0  [(next-vase:h136 !<(vase:h136 (slot 3 ole))) old(- %1)]
+              %1  [(slot 3 ole) old]
+            ==
+          =^  cards  inner  (on-load:og ile)
+          =^  cards  state  (play-card:up give)
+          =^  cards  state  (play-cards:up cards)
+          [cards this]
+      ::
+      +$  state-any  $%(state-0 state-1)
+      +$  state-0  [%0 on=?]
+      --
     ::
     ++  on-watch
       |=  =path
