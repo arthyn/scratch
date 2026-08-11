@@ -20,6 +20,14 @@ document.addEventListener('alpine:init', () => {
 
 Alpine.start();
 
+if (document.body) {
+  const link = document.createElement('a');
+  link.href = 'https://urbit.org/';
+  link.className = 'mt-4 text-sm text-gray-500 hover:text-gray-300 block text-center';
+  link.textContent = "Don't have an Urbit? Get one here.";
+  document.body.appendChild(link);
+}
+
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
